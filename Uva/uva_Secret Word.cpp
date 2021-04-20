@@ -49,10 +49,6 @@ void build_failure()
             j=failure[j];
         }
     }
-   /* for(int i=0; i<=pattern.size(); i++)
-        cout<<failure[i]<<" ";
-
-    cout<<endl;*/
 }
 
 void clr()
@@ -79,7 +75,6 @@ int main()
         pattern+=text;
 
         build_failure();
-       // cout<<endl<<text<<endl;
         for(int i=0; i<=pattern.size(); i++)
         {
             if(len<=failure[i])
@@ -88,7 +83,7 @@ int main()
                 len=failure[i];
             }
         }
-        //  cout<<len<<" "<<in<<endl;
+      
         for(int i=in; len>0; i--,len--)
             cout<<pattern[i];
 
