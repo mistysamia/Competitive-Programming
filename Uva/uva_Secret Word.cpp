@@ -17,7 +17,7 @@ using namespace std;
 #define fast_cin ios_base::sync_with_stdio(false);cin.tie(NULL)
 #define BIG 1000000000
 #define INF 1000000000000005
-#define N 100000
+#define N 10000010
 
 ll mod=1e9+7;
 
@@ -30,23 +30,21 @@ string text,pattern;
 
 void build_failure()
 {
-    failure[0]=failure[1]=0;
-    for(ll i=2; i<=pattern.size(); i++)
+    ll j=0,i=1;
+    while(i<text.size())
     {
-        ll j=failure[i-1];
-        while(1)
+        if(text[i]==text[j])
         {
-            if(pattern[j]==pattern[i-1])
-            {
-                failure[i]=j+1;
-                break;
-            }
+            failure[i]=j+1;
+            j++;
+            i++;
+        }
+        else
+        {
             if(j==0)
-            {
-                failure[i]=0;
-                break;
-            }
-            j=failure[j];
+                i++;
+            else
+                j=failure[j-1];
         }
     }
 }
@@ -55,6 +53,7 @@ void clr()
 {
     text.clear();
     pattern.clear();
+    memset(failure, 0,sizeof failure);
 }
 
 int main()
@@ -64,7 +63,6 @@ int main()
     cin>>t;
     while(t--)
     {
-        string s,s1;
         clr();
         ll lock=0,sum=0,co=0,ans=0,a=0,b=0,c=0,d=0;
         ll n,m,k,mx=-BIG,mn=BIG,len=0,in=0;
@@ -72,19 +70,14 @@ int main()
         cin>>pattern;
         text=pattern;
         reverse(text.begin(),text.end());
-        pattern+=text;
+        text=pattern+'.'+text;
 
         build_failure();
-        for(int i=0; i<=pattern.size(); i++)
-        {
-            if(len<=failure[i])
-            {
-                in=i-1;
-                len=failure[i];
-            }
-        }
-      
-        for(int i=in; len>0; i--,len--)
+        
+        for(int i=pattern.size(); i<text.size(); i++)
+            len=max(len,failure[i]);
+
+        for(int i=len-1; i>=0; i--)
             cout<<pattern[i];
 
         cout<<endl;
